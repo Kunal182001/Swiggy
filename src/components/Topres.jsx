@@ -32,13 +32,13 @@ const Topres = () => {
     return (
         <div>
             {/* Outer DIV */}
-            <div className='w-full h-[380px] flex flex-col items-center mt-12 '>
+            <div className='w-full h-[380px] flex flex-col items-center mt-20 md:mt-12 '>
                 {/* Main Content */}
                 <div className='w-[70%] flex flex-col  justify-center items-center p-4 shadow-sm'>
                     {/* Scrool part div */}
                     <div className='w-full flex flex-col md:flex-row justify-between items-center'>
                         <h1 className='text-2xl text-black font-bold'>Top restaurants chains in Delhi</h1>
-                        <h2 className=' md:text-[0px] text-xl text-black font-medium'>Swipe Right or Left Side to see restaurants </h2>
+                        <h2 className=' md:text-[0px] text-xl text-black font-medium'>Swipe left or right to browse restaurants</h2>
                         <div className='hidden md:flex justify-center gap-4 cursor-pointer'>
                             <div className='h-[34px] p-2 bg-[#D9D9DA] rounded-full ' onClick={prevSlide} style={{
                                 opacity: slide <= 0 ? 0.3 : 0.6
