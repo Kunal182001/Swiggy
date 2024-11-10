@@ -10,7 +10,6 @@ import { CiGps } from "react-icons/ci";
 import { SlPeople } from "react-icons/sl";
 import { CiShoppingCart } from "react-icons/ci";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { StandaloneSearchBox, LoadScript } from '@react-google-maps/api'
 
 const Navbar = () => {
     const [toggle, setToggle] = useState(false);
