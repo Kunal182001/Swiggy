@@ -10,6 +10,7 @@ import { CiGps } from "react-icons/ci";
 import { SlPeople } from "react-icons/sl";
 import { CiShoppingCart } from "react-icons/ci";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { StandaloneSearchBox, LoadScript } from '@react-google-maps/api'
 
 const Navbar = () => {
     const [toggle, setToggle] = useState(false);
@@ -57,7 +58,7 @@ const Navbar = () => {
     }, [toggle])
 
     //For moblie screen
-    const [isClick,setisClick]=useState(false);
+    const [isClick, setisClick] = useState(false);
     const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
 
     useEffect(() => {
@@ -67,14 +68,45 @@ const Navbar = () => {
         return () => window.removeEventListener("resize", handleResize);
     }, []);
 
-    function sideMenuclick(){
-        if(isClick){
+    function sideMenuclick() {
+        if (isClick) {
             setisClick(false);
         }
-        else{
+        else {
             setisClick(true);
         }
     }
+
+
+
+    //For Search Box 
+    const [query, setQuery] = useState('');
+    const [results, setResults] = useState([]);
+    const [location, setLocation] = useState('others');
+
+    const handleSearch = async (e) => {
+        const searchQuery = e.target.value;
+        setQuery(searchQuery);
+
+        if (searchQuery.length > 2) {  // Start searching after 3 characters
+            const response = await fetch(
+                `https://nominatim.openstreetmap.org/search?format=json&countrycodes=IN&q=${searchQuery}`
+            );
+            const data = await response.json();
+            setResults(data);
+        } else {
+            setResults([]);  // Clear results if query length is less than 3
+        }
+    };
+
+    const handleSelectLocation = (location) => {
+        const addressParts = location.display_name.split(', ');
+        const formattedAddress = addressParts.slice(0, 2).join(', ');
+        setLocation(formattedAddress);
+        setResults([]);
+        setQuery(location.display_name);
+        setToggle(false);
+    };
 
     return (
         <>
@@ -91,10 +123,25 @@ const Navbar = () => {
                     </div>
                     <div>
                         <input
-                            className="w-full h-[50px] sm:h-[60px] shadow-md p-3 sm:p-4 md:w-[380px] rounded-md"
                             type="text"
-                            placeholder="Search for area, street name..."
+                            value={query}
+                            onChange={handleSearch}
+                            placeholder="Search for location..."
+                            className="w-full h-[50px] sm:h-[60px] shadow-md p-3 sm:p-4 md:w-[380px] rounded-md no-underline"
                         />
+                        {results.length > 0 && (
+                            <ul className="list-none p-0 m-0 border border-gray-300 max-h-[200px] overflow-y-auto no-underline">
+                                {results.map((result) => (
+                                    <li
+                                        key={result.place_id}
+                                        onClick={() => handleSelectLocation(result)}
+                                        className="p-2 cursor-pointer border-b border-gray-200 no-underline"
+                                    >
+                                        {result.display_name}
+                                    </li>
+                                ))}
+                            </ul>
+                        )}
                     </div>
                     <div className="w-full sm:w-[80%] md:w-[380px] border border-gray-300 p-3 flex flex-col items-start rounded-md cursor-pointer hover:shadow-md transition-shadow duration-200">
                         <div className="flex items-center gap-2">
@@ -111,11 +158,11 @@ const Navbar = () => {
             <div className='w-full h-[80px] p-[15px] shadow-xl flex justify-center items-center font-roboto sticky top-0 z-[10] bg-white '>
                 <div className='w-[80%] flex flex-row justify-between items-center text-black'>
 
-                    <div className='w-[50%] md:w-[20%] flex justify-start gap-4 md:gap-0 flex-row md:justify-evenly items-center ' >
+                    <div className='w-[50%] md:w-[20%] flex justify-start gap-5 md:gap-1 flex-row md:justify-evenly items-center no-underline ' >
                         <img src={logo} alt='Logo'
                             className='w-[51px] h-[51px] hover:w-[57px] hover:h-[57px] transition-all duration-[300ms] rounded-2xl cursor-pointer' />
                         <div className='flex flex-row justify-center items-center gap-[10px] cursor-pointer' onClick={areasearch} >
-                            <p className='font-bold  text-[14px] border-b-[3px] border-black hover:text-orange-500 hover:border-orange-500'>Other</p>
+                            <p className='font-bold h-full text-[14px]  hover:text-orange-500 hover:border-orange-500 no-underline'>{location}</p>
                             <RxCaretDown className='text-2xl text-orange-500' />
                         </div>
                     </div>
@@ -138,7 +185,7 @@ const Navbar = () => {
 
                 </div>
             </div>
-            <div className={isClick?'w-screen h-full flex flex-col items-center gap-1 bg-slate-400 ':"hidden"}>
+            <div className={isClick ? 'w-screen h-full flex flex-col items-center gap-1 bg-slate-400 ' : "hidden"}>
                 {link.map((l, index) => (
                     <div
                         key={index}
