@@ -45,7 +45,7 @@ const Topres = () => {
                     {/* Scrool part div */}
                     <div className='w-full flex flex-col md:flex-row justify-between items-center'>
                         <h1 className='text-2xl text-black font-bold'>Top restaurants chains in Delhi</h1>
-                        <h2 className=' md:text-[0px] text-xl text-black font-medium'>QSwipe left or right to browse restaurants</h2>
+                        <h2 className=' md:text-[0px] text-xl text-black font-medium'>"Swipe left or right to browse restaurants"</h2>
                         <div className='hidden md:flex justify-center gap-4 cursor-pointer'>
                             <div className='h-[34px] p-2 bg-[#D9D9DA] rounded-full ' onClick={prevSlide} style={{
                                 opacity: slide <= 0 ? 0.3 : 0.6
