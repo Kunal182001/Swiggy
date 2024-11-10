@@ -3,15 +3,21 @@ import { BsFilterLeft } from "react-icons/bs";
 import { MdStars } from "react-icons/md";
 import { FaChevronDown } from "react-icons/fa";
 import { IoSearch } from "react-icons/io5";
+import OnlineRestaurants from '../Data/OnlineResturant.json'
 
 const Onlineres = () => {
 
     const [categorey, setCategorey] = useState([]);
 
     const fetchcategorey = async () => {
-        const response = await fetch("http://localhost:5000/top-restaurant-chains");
-        const data = await response.json();
-        setCategorey(data);
+
+        //For API Call
+        // const response = await fetch("http://localhost:5000/top-restaurant-chains");
+        // const data = await response.json();
+
+        //For Json File
+        const newData=OnlineRestaurants;
+        setCategorey(newData);
     }
     useEffect(() => {
         fetchcategorey();
@@ -114,7 +120,10 @@ const Onlineres = () => {
                                         // Card
                                         <div key={index} className='w-full relative h-[285px] md:max-w-[321px] duration-500 flex flex-col items-start '>
                                             <div className='hover:scale-90 duration-200'>
-                                                <img className="relative w-[244px] h-[162px] rounded-xl " src={"http://localhost:5000/images/" + i.image} />
+
+                                                {/* For API */}
+                                                {/* <img className="relative w-[244px] h-[162px] rounded-xl " src={"http://localhost:5000/images/" + i.image} /> */}
+                                                <img className="relative w-[244px] h-[162px] rounded-xl " src={`./assets/images/${i.image}`}  />
                                                 <p className='font-bold'>{i.title}</p>
                                                 <div className='flex items-center gap-[4px]'>
                                                     <MdStars className='text-green-700 bg-white text-xl' />

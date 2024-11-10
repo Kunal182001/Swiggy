@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from 'react'
 import { FaArrowLeft } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
+import NewCategoreyData from '../Data/CategoreyData.json'
 
 const Categorey = () => {
     const [slide,setSlide]=useState(0);
@@ -21,9 +22,14 @@ const Categorey = () => {
     }
 
     const fetchcategorey = async ()=>{
-        const response= await fetch("http://localhost:5000/categories");
-        const data= await response.json();
-        setCategorey(data);
+
+        //For API call
+        // const response= await fetch("http://localhost:5000/categories");
+        // const data= await response.json();
+
+        //For Using Json File
+        const newData=NewCategoreyData;
+        setCategorey(newData);
     }
     useEffect(() => {
         fetchcategorey();
@@ -59,7 +65,8 @@ const Categorey = () => {
                                             transform:`translateX(-${slide*100}%)`
                                         }}
                                     >
-                                        <img className=""src={"http://localhost:5000/images/"+i.image}/>
+                                        {/* <img className=""src={"http://localhost:5000/images/"+i.image}/> */}
+                                        <img src={`./assets/images/${i.image}`} alt="description" />
                                     </div>
                                 )
                             }

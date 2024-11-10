@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { FaArrowLeft } from "react-icons/fa";
 import { FaArrowRight } from "react-icons/fa";
 import { MdStars } from "react-icons/md";
+import topRestaurantChains from '../Data/topResturantData.json'
 
 const Topres = () => {
     const [slide, setSlide] = useState(0);
@@ -22,9 +23,15 @@ const Topres = () => {
     }
 
     const fetchcategorey = async () => {
-        const response = await fetch("http://localhost:5000/top-restaurant-chains");
-        const data = await response.json();
-        setCategorey(data);
+
+        //For API Call
+        // const response = await fetch("http://localhost:5000/top-restaurant-chains");
+        // const data = await response.json();
+
+        //Using json File for data
+        const newdata=topRestaurantChains;
+        console.log(newdata);
+        setCategorey(newdata);
     }
     useEffect(() => {
         fetchcategorey();
@@ -38,7 +45,7 @@ const Topres = () => {
                     {/* Scrool part div */}
                     <div className='w-full flex flex-col md:flex-row justify-between items-center'>
                         <h1 className='text-2xl text-black font-bold'>Top restaurants chains in Delhi</h1>
-                        <h2 className=' md:text-[0px] text-xl text-black font-medium'>Swipe left or right to browse restaurants</h2>
+                        <h2 className=' md:text-[0px] text-xl text-black font-medium'>QSwipe left or right to browse restaurants</h2>
                         <div className='hidden md:flex justify-center gap-4 cursor-pointer'>
                             <div className='h-[34px] p-2 bg-[#D9D9DA] rounded-full ' onClick={prevSlide} style={{
                                 opacity: slide <= 0 ? 0.3 : 0.6
@@ -61,7 +68,12 @@ const Topres = () => {
                                             }}>
                                             <div className=' group'>
                                                 <div>
-                                                <img className="relative w-[259px] h-[173px] rounded-xl group-hover:scale-90 duration-200 " src={"http://localhost:5000/images/" + i.image} />
+
+                                                {/* For API  */}
+                                                {/* <img className="relative w-[259px] h-[173px] rounded-xl group-hover:scale-90 duration-200 " src={"http://localhost:5000/images/" + i.image} /> */}
+                                                
+                                                <img className="relative w-[259px] h-[173px] rounded-xl group-hover:scale-90 duration-200 " src={`./assets/images/${i.image}`} />
+                                                
                                                 <div className=' w-[259px] fixed  bottom-[112px] left-[1px] bg-gradient-to-t from-black/100 to-transparent rounded-xl group-hover:scale-90 duration-200' >
                                                     <p className='text-[20px] text-white font-[800] pl-2 '>{i.offer}</p></div>
                                                     </div>
